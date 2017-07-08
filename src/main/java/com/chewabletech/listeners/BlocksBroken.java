@@ -1,73 +1,46 @@
 package com.chewabletech.listeners;
 
 import com.chewabletech.Main;
-import org.bstats.Metrics;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import java.util.HashMap;
-
-import static org.bukkit.GameMode.SURVIVAL;
-
 public class BlocksBroken implements Listener
 {
+
     private Main plugin;
 
-    public BlocksBroken(Main instance)
+    public BlocksBroken(Main pl)
     {
-
-        plugin = instance;
-
+        this.plugin = pl;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void BlocksBroken(BlockBreakEvent e)
+    public void BlockBreak(BlockBreakEvent e)
     {
-        Metrics metrics = new Metrics(plugin);
-
-        // Dirt
-        if(e.getBlock().getType() == Material.DIRT && e.getPlayer().getGameMode() == SURVIVAL)
+        int i = 1;
+        if (e.getBlock().getType() == Material.DIRT && e.getPlayer().getGameMode() == GameMode.SURVIVAL)
         {
-            metrics.addCustomChart(new Metrics.AdvancedPie("blocks_broken")
-            {
-                @Override
-                public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap)
-                {
-                    valueMap.put("Dirt", 1);
-                    return valueMap;
-                }
-            });
+            int dirtcount = this.plugin.getConfig().getInt("Dirt");
+            this.plugin.getConfig().set("Dirt", dirtcount + i);
+            this.plugin.saveConfig();
         }
 
-        // Stone
-        if(e.getBlock().getType() == Material.STONE && e.getPlayer().getGameMode() == SURVIVAL)
+        if (e.getBlock().getType() == Material.STONE && e.getPlayer().getGameMode() == GameMode.SURVIVAL)
         {
-            metrics.addCustomChart(new Metrics.AdvancedPie("blocks_broken")
-            {
-                @Override
-                public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap)
-                {
-                    valueMap.put("Stone", 1);
-                    return valueMap;
-                }
-            });
+            int dirtcount = this.plugin.getConfig().getInt("Dirt");
+            this.plugin.getConfig().set("Stone", dirtcount + i);
+            this.plugin.saveConfig();
         }
 
-        // Log
-        if(e.getBlock().getType() == Material.LOG && e.getPlayer().getGameMode() == SURVIVAL)
+        if (e.getBlock().getType() == Material.LOG && e.getPlayer().getGameMode() == GameMode.SURVIVAL)
         {
-            metrics.addCustomChart(new Metrics.AdvancedPie("blocks_broken")
-            {
-                @Override
-                public HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap)
-                {
-                    valueMap.put("Log?", 1);
-                    return valueMap;
-                }
-            });
+            int dirtcount = this.plugin.getConfig().getInt("Dirt");
+            this.plugin.getConfig().set("Log", dirtcount + i);
+            this.plugin.saveConfig();
         }
     }
 }

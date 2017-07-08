@@ -3,3 +3,10 @@ main: com.chewabletech.Main
 description: An attempt to create a global stats plugin.
 version: 1.0.0
 author: TechieCrow
+
+commands:
+  randomstats:
+    description: Usage '/randomstats'
+permissions:
+  randomstats.reload:
+   default: op
