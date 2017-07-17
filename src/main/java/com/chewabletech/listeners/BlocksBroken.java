@@ -2,7 +2,6 @@ package com.chewabletech.listeners;
 
 import com.chewabletech.Main;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -18,29 +17,25 @@ public class BlocksBroken implements Listener
         this.plugin = pl;
     }
 
+    // block break event.
     @EventHandler(priority = EventPriority.MONITOR)
     public void BlockBreak(BlockBreakEvent e)
     {
-        int i = 1;
-        if (e.getBlock().getType() == Material.DIRT && e.getPlayer().getGameMode() == GameMode.SURVIVAL)
+        // Check player is in survival.
+        if (e.getPlayer().getGameMode() == GameMode.SURVIVAL)
         {
-            int dirtcount = this.plugin.getConfig().getInt("Dirt");
-            this.plugin.getConfig().set("Dirt", dirtcount + i);
-            this.plugin.saveConfig();
-        }
+            int i = 1;
 
-        if (e.getBlock().getType() == Material.STONE && e.getPlayer().getGameMode() == GameMode.SURVIVAL)
-        {
-            int dirtcount = this.plugin.getConfig().getInt("Dirt");
-            this.plugin.getConfig().set("Stone", dirtcount + i);
-            this.plugin.saveConfig();
-        }
+            // Get the broken block. (need to figure out a way to get metadata too)
+            String block = e.getBlock().getType().name();
 
-        if (e.getBlock().getType() == Material.LOG && e.getPlayer().getGameMode() == GameMode.SURVIVAL)
-        {
-            int dirtcount = this.plugin.getConfig().getInt("Dirt");
-            this.plugin.getConfig().set("Log", dirtcount + i);
+            // Increase count +1 or add block with count of 1.
+            int blockcount = this.plugin.getConfig().getInt(block);
+            this.plugin.getConfig().set(block, blockcount + i);
             this.plugin.saveConfig();
+
+            // Send a (debug) message to the player telling him/her what block was broke.
+//            e.getPlayer().sendMessage("You broke: " + block);
         }
     }
 }
